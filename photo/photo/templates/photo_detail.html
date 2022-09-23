@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}사진상세보기{% endblock title %}
+{% block content %}
+<div class="row">
+        <div class="col">
+          <a href="{% url 'photo_list' %}" class="btn btn-info">돌아가기</a>
+          <a href="{% url 'photo_edit' pk=photo.pk %}" class="btn btn-success">수정</a>
+          <a href="{% url 'photo_remove' pk=photo.pk %}" class="btn btn-danger">삭제</a>
+        </div>
+      </div>
+      <div class="row pt-4">
+        <h2>상세보기</h2>
+      </div>
+
+      <!--사진 등록 폼 -->
+      <div class="row pt-4">
+        <div class="col-8 mx-auto">
+          <form method="post">
+            <!-- post 방식의 폼은 반드시 {% csrf_token %}을 포함해야함-->
+
+            {% csrf_token %}
+            <!--title-->
+            <div class="form-group row">
+              <label for="title" class="col-sm-2 col-form-label">Title</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" value="{{photo.title}}" readonly = 'readonly'>
+              </div>
+            </div>
+            <!--author-->
+            <div class="form-group row">
+              <label for="author" class="col-sm-2 col-form-label">Author</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="author" name="author" value="{{photo.author}}" readonly = 'readonly'>
+              </div>
+            </div>
+
+            <!--image-->
+            <div class="form-group row">
+              <label for="image" class="col-sm-2 col-form-label">Image</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="image" name="image" value="{{photo.image}}" readonly = 'readonly'>
+              </div>
+            </div>
+
+            <!--description-->
+            <div class="form-group row">
+              <label for="description" class="col-sm-2 col-form-label">Description</label>
+              <div class="col-sm-10">
+                <textarea name="description" id="description" rows="10" class="form-control"  readonly = 'readonly'>{{photo.description}}</textarea>
+              </div>
+            </div>
+
+            <!--price-->
+            <div class="form-group row">
+              <label for="price" class="col-sm-2 col-form-label">Price</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="price" name="price"value="{{photo.price}}" readonly = 'readonly'>
+              </div>
+            </div>
+
+            
+
+          </form>
+        </div>
+      </div>
+
+{% endblock content %}
+
+      

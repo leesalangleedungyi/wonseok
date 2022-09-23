@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block style %} <style>
+    .photo div:nth-child(2) img {
+      width: 300px;
+    }
+  </style>{% endblock style %}
+{% block title %}사진 전체 보기{% endblock title %}
+{% block content %}
+<div class="row pb-3">
+    <div class="col">
+      <h1>Photo List</h1>
+    </div>
+    <div class="col text-center">
+      <a href="{% url 'photo_post' %}" class="btn btn-success">New Photo</a>
+    </div>
+  </div>
+  {% if photos %}
+    {% for photo in photos %}
+      <div class="row photo my-3">
+        <div class="col">
+          <h2>
+            <a href="{% url 'photo_detail' pk=photo.pk %}">
+              {{photo.title}}
+            </a>
+          </h2>
+        </div>
+        <div class="col"><img src="{{photo.image}}" alt="{{photo.title}}"></div>
+        <div class="col">
+          <p>
+            {{photo.author}},
+            {{photo.price}}
+            원
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="row">
+      <div class="col">사진이 없습니다.</div>
+    </div>
+  {% endif %}{% endblock content %}
+
+        
+    

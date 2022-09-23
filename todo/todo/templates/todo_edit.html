@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row mb-3">
+      <h1>할 일 수정</h1>
+      <div class="col-md-12">
+        {% include 'errors.html' %}
+
+        <div class="card">
+              <div class="card-body">
+                <form method="post">
+                  {% csrf_token %}
+                  {% comment %} {{form.as_p}} {% endcomment %}
+                  <div class="form-group">
+                  
+                    <label for="title">Title</label>
+                    <input type="text" name='title' placeholder = '제목입력' class='form-control' value="{{form.title.value}}">
+                    
+                  </div>
+                  <div class="form-group">
+                    
+                    <label for="description">description</label>
+                    <textarea name='description' row='10' class='form-control'>{{form.description.value}}</textarea>
+                    
+                  </div>
+                  <div class="form-group">
+                    
+                    <label for="important">important</label>
+                    {% if from.important.value %}
+                      <input type="checkbox" name='important' class='form-check' checked="checked">
+                    {% else %}
+                      <input type="checkbox" name="important" class="form-check">
+                    {% endif %}
+                    
+                  </div>
+                  
+                  <button class="btn btn-primary" type="submmit">등록</button>
+                </form>
+              </div>
+          </div>
+      </div>
+    </div>
+
+{% endblock content %}
+
+
