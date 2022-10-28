@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <a href="{% url 'post_write' %}" class="btn btn-primary float-right">글쓰기</a>
+      </div>
+    </div>
+    <!-- 반복문 돌릴 부분-->
+    {% for post in posts %}
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-preview">
+          <a href="{% url 'post_detail' post.pk %}">
+            <h3 class="post-title">
+              {{post.title}}
+            </h3>
+            <h4 class="post-subtitle">
+              {{post.content|truncatechars:30}}
+            </h4>
+          </a>
+          <p class="post-meta">
+            Posted by
+            <a href="">
+              {{post.user}}
+            </a>
+            {{post.created_at}}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+    <!-- 반복문 종료-->
+  </div>
+{% endblock content %}

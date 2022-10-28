@@ -1,0 +1,114 @@
+body {
+  padding-top: 5rem;
+}
+
+/* navbar */
+.navbar {
+  width: 70%;
+}
+
+.top-menu span {
+  line-height: 1;
+}
+
+.top-menu .dropdown button {
+  border: none;
+  background-color: #fff;
+}
+
+.top-menu .dropdown button > img {
+  width: 30px;
+  height: 30px;
+}
+
+/* 구글 머터리얼 아이콘 크기 지정 */
+.top-menu [class~="d-print-inline"] {
+  font-size: 30px;
+}
+
+a,
+a:hover {
+  color: black;
+}
+
+/* 로그인, 회원가입 */
+.cut-line {
+  color: #848587;
+  font-size: 13px;
+}
+
+/* 회원가입 */
+.right-second {
+  display: none;
+}
+.right-second .friends-info {
+  font-size: 1.1rem;
+  font-weight: 550;
+  color: #8d8f91;
+}
+.right-second .info {
+  font-size: 12px;
+  line-height: 16px;
+  color: #848587;
+}
+.right-second input::placeholder {
+  font-size: 13px;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+/* profile */
+.profile-image {
+  width: 50px;
+  width: 50px;
+}
+
+.profile-change {
+  width: 150px;
+  width: 150px;
+}
+
+/* profile modal */
+.btn-upload {
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#file {
+  display: none;
+}
+
+
+
+/* feed 쪽 이미지 크기 */
+
+.card,
+.follow-list {
+  width : 30rem;
+
+}
+
+textarea.control {
+  display : block;
+  width : 21rem;
+  font-size : 0.8rem;
+  font-weight: 400;
+  border : #fff;
+  outline-color: #fff;
+}
+
+textarea::placeholder{
+  vertical-align: middle;
+}
+
+.button{
+  border:none;
+  background-color: wihte;
+  color: #0096f6;
+  opacity:0.4
+}
+

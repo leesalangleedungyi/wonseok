@@ -1,24 +1,16 @@
 {% extends 'base.html' %}
-
 {% block style %}
-    <style>
-
-        
-    </style>
-{% endblock style  %}
-
+  <style></style>
+{% endblock style %}
 {% block content %}
-
-    <form action="" method="post">
-        {% csrf_token %}
-        <div><label for="name">이름</label>
-        <input type="text" name="name">
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary">
-                전송
-            </button>
-        </div>
-        
-    </form>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="name">이름</label>
+      <input type="text" name="name">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">전송</button>
+    </div>
+  </form>
 {% endblock content %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <h1>WRITE</h1>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      {% include 'form_errors.html' %}
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{field.id_for_label}}">{{field.label}}</label>
+
+            {% if field.name == 'contents' %}
+              <textarea name="{{field.name}}" id="{{field.id_for_label}}" rows="5" class="form-control"></textarea>
+            {% else %}
+              <input type="{{field.field.widget.input_type}}" class="form-control" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}" value="{{field.value|default_if_none:''}}">
+            {% endif %}
+
+          </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">등록</button>
+        <button class="btn btn-success" type="button" onclick="location.href='{% url 'list' %}'">목록으로</button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

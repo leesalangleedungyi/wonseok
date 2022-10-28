@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/modalstlyes.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dropzone.min.css' %}">
+{% endblock style %}
+{% block content %}
+  <div class="container my-3">
+    <div class="row justify-content-md-center">
+
+      <div class="col-sm-5">
+        <div class="row border rounded mb-3">
+          <div class="col-3 my-2 text-center">
+            <!--팔로우 목록 보여주기-->
+            <img src="" alt="" class="rounded-circle profile-image">
+            <span class="d-block small">
+              <!--팔로우 nickname-->
+            </span>
+          </div>
+        </div>
+
+        <!--왼쪽 피드 반복되는 부분-->
+        {% for content in contents %}
+        <div class="row card mb-3">
+          <div class="card-header">
+            <!--프로필 사진/이름/팔로우 취소-->
+            <img src="{{content.user.profile.image.url}}" alt="" class="rounded-circle mr-2 profile-image">
+            <span class="font-weight-bold">
+              <!--닉네임-->
+              {{content.user.nickname}}
+            </span>
+            <!--팔로우 취소 버튼 : 본인 계정은 팔로우 취소 버튼 보이지 않기-->
+            {% if request.user != content.user %}
+            <a href="" class="unfollow">
+              <span class="badge badge-pill badge-danger">팔로우 취소</span>
+            </a>
+            {% endif %}
+          </div>
+          
+          
+          
+
+
+          <!--이미지 carousel 사용시-->
+          <div id="carouselExampleControls{{forloop.counter0}}" class="carousel slide card-img-top" data-ride="carousel">
+            <div class="carousel-inner">
+              <!-- 이미지 반복-->
+              {% for img in content.image_set.all  %}
+                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% else %}{{default_if_none}}{% endif %}">
+                  <img src="{{img.image.url}}" class="d-block w-100" alt="">
+                </div>
+              {% endfor %}
+            </div>
+            {% if  content.image_set.count > 1 %}
+              <button class="carousel-control-prev" type="button" data-target="#carouselExampleControls{{forloop.counter0}}" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-target="#carouselExampleControls{{forloop.counter0}}" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </button>
+            {% endif %}
+
+          </div>
+          <!--이미지 종료-->
+          <div class="card-body">
+            <div class="mb-2">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <span class="material-icons-outlined d-print-inline">
+                    favorite_border
+                  </span>
+                  <span class="material-icons-outlined d-print-inline px-3">
+                    maps_ugc
+                  </span>
+                  <span class="material-icons-outlined d-print-inline">
+                    send
+                  </span>
+                  <span class="material-icons-outlined d-print-inline">
+                    bookmark_border
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-2">좋아요 1,310개</div>
+            <div class="mb-2">
+              <span class="font-weight-bold">
+                <!--피드 작성자-->
+                {{content.user.nickname}}
+              </span>
+              <span class="small">
+                <!--피드 내용-->
+                {{content.text|truncatechars:8}}
+              </span>
+            </div>
+            <div class="mb-2">
+              <a href="" class="small text-muted">
+                <!--댓글 개수-->
+                
+              </a>
+            </div>
+            <div class="small text-muted">
+              <!--게시물 수정일자-->
+              {{content.modified_at|naturaltime}}
+                
+            </div>
+          </div>
+
+          <div class="card-footer text-muted bg-white" style="padding:0.9rem 0.8rem">
+            <form class="form-inline">
+              <div class="form-group mx-2">
+                <span style="font-size:1.6rem">&#128512;</span>
+              </div>
+              <div class="form-group">
+                <textarea name="comment_text" class="control comment_text" rows="1" placeholder="댓글 달기..."></textarea>
+              </div>
+              <div class="form-group ml-2">
+                <button class="button">게시</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% endfor %} 
+      </div>
+      <!--왼쪽 피드 종료-->
+     
+
+      <div class="col-md-auto"></div>
+
+      <!--오른쪽 화면 구성-->
+      <div class="col-sm-5">
+        <div class="row">
+          <div class="col-2 align-self-center">
+            <!-- 현재 프로필  이미지-->
+            <img src="{{user.profile.image.url}}" alt="" class="rounded-circle profile-image">
+          </div>
+          <div class="col-7">
+            <p class="mb-0">
+              <!--현재 user nickname-->
+              {{user.nickname}}
+            </p>
+            <p class="card-text mt-0">
+              <small class="text-muted">
+                <!--현재 user name-->
+                {{user.name}}
+              </small>
+            </p>
+          </div>
+          <div class="col-2 align-self-center text-right">
+            <a href="">
+              <small class="text-primary">전환</small>
+            </a>
+          </div>
+        </div>
+
+        <div class="row recommend mt-3">
+          <div class="col-9">
+            <p>회원님을 위한 추천</p>
+          </div>
+        </div>
+
+        <!--추천목록-->
+        <div class="row mb-3">
+          <div class="col-2">
+            <img src="" alt="" class="rounded-circle profile-image">
+          </div>
+          <div class="col-7">
+            <p class="mb-0">
+              <!--추천 닉네임-->
+            </p>
+            <p class="card-text mt-0">
+              <small class="text-muted">회원님을 팔로우합니다.</small>
+            </p>
+          </div>
+          <div class="col-2 align-self-center text-right">
+            <a href="" class="follow">
+              <small class="text-muted">팔로우</small>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!--오른쪽 종료-->
+
+    </div>
+  </div>
+  {% include contents_modal.html %}
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}글작성{% endblock title %}
+{% block content %}
+  <div class="container">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="title">제목</label>
+        <input type="text" name="title" id="title" placeholder="제목을 입력해 주세요" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="content">내용</label>
+        <textarea name="content" id="content" rows="7" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="image">사진첨부</label>
+        <input type="file" name="image" id="image" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="tags">태그</label>
+        <input type="text" name="tags" id="tags" placeholder=",를 넣어서 입력해주세요" class="form-control">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">저장하기</button>
+      </div>
+    </form>
+  </div>
+{% endblock content %}

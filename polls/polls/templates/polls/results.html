@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="card" style='width:50rem'>
+      <div class="card-header">
+        <!--질문내용-->
+        <h1>{{question.question_text}}</h1>
+        <small>익명투표</small>
+      </div>
+      <ul class="list-group list-group-flush">
+        <!--choice 반복-->
+        {% for choice in question.choice_set.all %}
+          <li class="list-group-item">{{choice.choice_text}}
+            --
+            {{choice.votes}}
+            vote{{choice.votes|pluralize}}
+            <!-- choice.votes 개수에 따라 vote 를 복수로 나타낼 것이냐? 단수로 나타낼 것이냐-->
+          </li>
+        {% endfor %}
+      </ul>
+      <a href=" {% url 'detail' question.id %}  " class="btn btn-outline-success">Vote again?</a>
+    </div>
+  </div>
+{% endblock content %}

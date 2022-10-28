@@ -1,0 +1,130 @@
+{% extends 'base.html' %} 
+{% load board_filter %}
+{% block content %}
+<div class="container my-3">
+  <h1>질문 목록</h1>
+  <!-- 검색 폼-->
+  <div class="row justify-content-end my-3">
+    <div class="col-2">
+      <select class="form-control so">
+        <option value="recent" {% if so == "recent"} selected{% endif %} >최신순</option>
+        <option value="recommend" selected>댓글순</option>
+        <option value="popular" selected>추천순</option>
+      </select>
+    </div>
+    <div class="col-4 input-group">
+      <input type="text" class = 'form-control keyword' value="{{keyword|default_if_none:''}}">
+      <div class="input-group-append">
+        <button type = 'button' class="btn btn-outline-secondary" id = 'btn_search'> 검색</button>
+      </div>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일시</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--반복될 부분-->
+      {% for question in question_list %}
+      <tr>
+        <td>
+          {{question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1}}
+        </td>
+        <td>
+          <a href="{% url 'board:question_detail' question.id %}">
+            {{question.subject}}
+            <!-- 댓글 숫자 -->
+            {% if question.answer_set.count > 0 %}
+              <span class="text-danger small">
+                {{question.answer_set.count}}
+              </span>
+            {% endif %}
+          </a>
+        </td>
+        <td>{{question.author.username}}</td>
+        <td>{{question.created_at}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!--페이지 처리-->
+  <div class="row mt-2">
+    <div class="col-12">
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if question_list.has_previous %}
+          <li class="page-item">
+            <a href="#" class="page-link" data-page="{{question_list.previous_page_number}}">이전</a>
+          </li>
+          {% endif %} 
+          {% for page in question_list.paginator.page_range %} 
+            {% if page >= question_list.number|add:-5 and page <= question_list.number|add:5 %}
+            <li class="page-item {% if page == question_list.number %}active{% endif %}">
+              <a href="#" class="page-link" data-page="{{page}}">{{page}}</a>
+            </li>
+            {% endif %} 
+          {% endfor %} 
+          {% if question_list.has_next %}
+          <li class="page-item">
+            <a href="#" class="page-link" data-page="{{question_list.next_page_number}}">다음</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <a href="{% url 'board:question_create' %}" class="btn btn-primary">질문 등록</a>
+</div>
+<!-- 검색 버튼/정렬버튼 누르면 아래 폼 전송-->
+<form action=""  method='get' id='searchForm'>
+  <input type="hidden" name='keyword' value="{{keyword|default_if_none:''}}" id='keyword'>
+  <input type="hidden" name='page' value="{{page}}" id='page'>
+  <input type="hidden" name='so' value="{{so}}" id='so'>
+</form>
+{% endblock content %}(
+{% block script %}
+<script>
+  $(function(){
+      // 정렬 기준 변경
+
+    $('.so').on('change',function(){
+      $("#so").val($(this).val());
+      $("#page").val(1);
+      $("#searchForm").submit();
+
+    })
+
+   
+    // 페이지 나누기 버튼 클릭 시
+    $(."page-link").on('click',function(){
+
+      $("#page").val($(this).data("page"));
+      $("#searchForm").submit();
+
+
+    })
+
+  
+    $("#btn_search").on('click',function(){
+       
+
+      
+      // 사용자가 입력한 검색어를 가져온 후 searchForm keyword 태그의 value 안에 집어넣어야함
+      $("#keyword").val($(".keyword").val());
+      
+      // searchForm page택의 vaule를 1로 변경
+
+      $("#page").val(1);
+      $('#searchForm').submit();
+      
+
+    })
+
+})
+</script>
+{% endblock script %}

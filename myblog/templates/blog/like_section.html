@@ -1,0 +1,24 @@
+{% load static %}
+{% load social_share %}
+<div class="row">
+  <div class="col-1 recommand mb-2 text-right">
+    <button type="button" value="{{post.id}}" class="px-3 mb-2">
+      <img src="{% static 'img/like2.png' %}" alt="like" class="like {% if not is_liked %}disabled{% endif %}">
+      <img src="{% static 'img/like1.png' %}" alt="like" class="unlike {% if is_liked %}disabled{% endif %}">
+    </button>
+    <div class="like_count">
+      좋아요
+      <span>{{post.likes.count}}</span>개
+    </div>
+  </div>
+  <!-- social -->
+  <div class="col-3">
+    {% block social %}
+      <ul class="list-inline">
+        <li class="list-inline-item">{% post_to_twitter "[New Post] {{post.title}}" object_or_url '<span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x fa-inverse"></i></span>' %}</li>
+        <li class="list-inline-item">{% post_to_facebook object_or_url '<span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i></span>' %}</li>
+        <li class="list-inline-item">{% post_to_telegram "[New Post] : {{object.title}}" object_or_url '<span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-telegram fa-stack-1x fa-inverse"></i></span>' %}</li>
+      </ul>
+    {% endblock social %}
+  </div>
+</div>

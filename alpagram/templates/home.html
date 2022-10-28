@@ -1,0 +1,214 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+  <div class="d-flex justify-content-center">
+    <!--왼쪽 이미지 -->
+    <div class="col-5 p-2">
+      <img src="{% static 'img/main.png' %} " alt="" class="mx-auto d-block">
+    </div>
+
+    <!--오른쪽 로그인화면-->
+    <div class="col-4 right-first">
+      <div class="row border mb-4 p-3 bg-white">
+        <div class="col">
+          <div class="row mt-4">
+            <div class="col">
+              <a href="">
+                <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="" class="mx-auto d-block">
+              </a>
+            </div>
+          </div>
+          <div class="row px-3">
+            <div class="col">
+              <form action="{% url 'login' %}" method="post" class="mt-5 mb-3">
+                {% csrf_token %}
+
+                <div class="form-row mb-3">
+                  <div class="col">
+                    <input type="text" name="username" id="username" class="form-control form-control-sm" placeholder="이메일">
+                  </div>
+                </div>
+
+                <div class="form-row mb-3">
+                  <div class="col">
+                    <input type="password" name="password" id="password" class="form-control form-control-sm" placeholder="비밀번호">
+                  </div>
+                </div>
+                <div class="form-row mb-3">
+                  <div class="col">
+                    <button type="submit" class="btn btn-outline-primary btn-block form-control-sm">로그인</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="row my-2 mx-4 cut-line">
+            <div class="col-5 px-0">
+              <hr>
+            </div>
+            <div class="col-2 px-2">
+              <p class="pt-2">또는</p>
+            </div>
+            <div class="col-5 px-0">
+              <hr>
+            </div>
+          </div>
+
+          <div class="row mb-3 px-3">
+            <div class="col text-center">페이스북으로 로그인</div>
+          </div>
+
+          <div class="row mb-3 px-3">
+            <div class="col text-center">
+              <p class="small text-muted">비밀번호를 잊으셨나요?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row border p-4 bg-white">
+        <div class="col text-center mx-4">
+          <span>계정이 없으신가요?
+            <a href="" class="text-success register">가입하기</a>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!--오른쪽 로그인 화면 종료-->
+
+    <!--오른쪽 회원가입 화면-->
+    <div class="col-4 p-4 right-second">
+      <div class="row border mb-2 bg-white">
+        <div class="col">
+
+          <div class="row  mt-4">
+            <div class="col">
+              <a href="">
+                <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="" class="mx-auto d-block">
+              </a>
+            </div>
+          </div>
+
+          <div class="row mt-2 justify-content-center">
+            <div class="col-10 align-self-center">
+              <p class="text-center friends-info">친구들의 사진과 동영상을 보려면 가입하세요.</p>
+            </div>
+          </div>
+
+          <div class="row my-2 cut-line">
+            <div class="col-5 px-0">
+              <hr>
+            </div>
+            <div class="col-2 px-2">
+              <p class="pt-2">또는</p>
+            </div>
+            <div class="col-5 px-0">
+              <hr>
+            </div>
+          </div>
+
+          <form method="post" id="register">
+            {% csrf_token %}
+            <div class="row mb-1 mx-4">
+              <input type="text" name="email" id="email" placeholder="이메일 주소" class="form-control">
+            </div>
+
+            <div class="row mb-1 mx-4">
+              <input type="text" name="name" id="name" placeholder="성명" class="form-control">
+            </div>
+
+            <div class="row mb-1 mx-4">
+              <input type="text" name="nickname" id="nickname" placeholder="사용자 이름" class="form-control">
+            </div>
+
+            <div class="row mb-1 mx-4">
+              <input type="password" name="password" id="password" placeholder="비밀번호" class="form-control">
+            </div>
+
+            <div class="row info text-center mx-5">
+              저희 서비스를 이용하는 사람이 회원님의 연락처 정보를 Alpagram에 업로드했을 수도 있습니다.
+            </div>
+
+            <div class="row mt-3 mb-5 mx-4">
+              <button type="submit" class="btn btn-primary btn-block form-control-sm">가입</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="row border p-4 bg-white">
+        <div class="col text-center">
+          <span>
+            계정이 있으신가요?
+            <a href="" class="text-success login">로그인</a>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!--오른쪽 회원가입 화면 종료-->
+  </div>
+{% endblock content %}
+{% block script %}
+  <script>
+    $(function () {
+      //register 폼 ajax 전송
+      $("#register").on("submit", function (e) {
+        //submit 중지
+        e.preventDefault();
+
+        //폼 전체 가져오기
+        var form = document.getElementById("register");
+        console.log(form);
+
+        //FormData : 폼을 쉽게 보내도록 도와주는 객체
+        var formData = new FormData(form);
+
+        //폼 전송
+        $.ajax({
+          url: '/apis/v1/users/create/',
+          type: 'post',
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            console.log(response);
+            //로그인 페이지 이동
+            location.reload();
+          },
+          error: function (req, status, error) {
+            console.log(req.responseJSON.message);
+
+            if (req.responseJSON.error) {
+              $.each(req.responseJSON.message, function (name, err) {
+                err = "<small class='text-danger'>" + err + "</small>";
+                $(form)
+                  .find("[name='" + name + "']")
+                  .after(err);
+              })
+            }
+
+          }
+        })
+
+      })
+
+      //가입하기 아이콘 클릭 시 회원가입화면 보여주고 로그인 화면 숨기기
+      $(".register").on("click", function (e) {
+        e.preventDefault();
+
+        $(".right-first").css("display", "none");
+        $(".right-second").css("display", "block");
+      })
+
+      // 로그인을 클릭 시 로그인화면 보여주고 회원가입 숨기기
+      $(".login").on("click", function (e) {
+        e.preventDefault();
+
+        $(".right-first").css("display", "block");
+        $(".right-second").css("display", "none");
+      })
+    })
+  </script>
+
+{% endblock script %}

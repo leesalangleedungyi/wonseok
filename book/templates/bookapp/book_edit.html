@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="mt-5">수정</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="code">Code</label>
+      <input type="number" name="code" id="code" readonly="readonly" value="{{form.code.value}}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" value="{{form.title.value}}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input type="text" name="author" id="author" readonly="readonly" value="{{form.author.value}}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="number" name="price" id="price" value="{{form.price.value}}" class="form-control">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success">수정</button>
+      <button type="submit" class="btn btn-danger">삭제</button>
+      <button type="submit" class="btn btn-primary">리스트</button>
+    </div>
+  </form>
+{% endblock content %}
+{% block script %}
+  <script>
+    // 리스트 버튼 클릭시 book_list 이동
+    // 자바스크립트 or jquery
+    //$(function () {
+    //  $(".btn-primary").click(function (e) {
+    //     button submit 기능 중지
+    //    e.preventDefault();
+    //    location.href = "/book/"
+    //    location.href = "{% url 'book_list' %}";
+    //  })
+    //})
+
+    // 삭제 버튼 클릭 시
+    document
+      .querySelector(".btn-danger")
+      .addEventListener('click', function (e) {
+        // button submit 기능 중지
+        e.preventDefault();
+        location.href = "{% url 'book_remove' pk=form.code.value %}";
+      })
+
+    document
+      .querySelector(".btn-primary")
+      .addEventListener('click', function (e) {
+        // button submit 기능 중지
+        e.preventDefault();
+        location.href = "{% url 'book_list' %}";
+      })
+  </script>
+{% endblock script %}

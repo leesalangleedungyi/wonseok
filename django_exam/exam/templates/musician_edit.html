@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block style %}
+  <style>
+    .errorlist {
+      list-style-type: none;
+      font-size: 0.8em;
+      color: red;
+    }
+
+    .errorlist li {
+      text-indent: -40px;
+    }
+  </style>
+{% endblock style %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group">
+        <label for="{{field.id_for_label}}">{{field.label}}</label>
+        <input type="{{field.field.widget.input_type}}" name="{{field.name}}" id="{{field.id_for_label}}" class="form-control" value="{{field.value}}">
+      </div>
+      {% if field.errors %}
+        {{field.errors}}
+      {% endif %}
+    {% endfor %}
+    <div>
+      <button type="submit" class="btn btn-primary">수정</button>
+      <button type="submit" class="btn btn-success">리스트</button>
+    </div>
+  </form>
+{% endblock content %}
+{% block script %}
+  <script>
+    //리스트 버튼이 클릭되면 버튼의 기본 기능 중지
+    //요청이  http://127.0.0.1:8000/exam/musician_list/  이동하기
+    document
+      .querySelector(".btn-success")
+      .addEventListener('click', function (event) {
+        event.preventDefault();
+        //location.href = "{% url 'musician_list' %}";
+      })
+  </script>
+{% endblock script %}

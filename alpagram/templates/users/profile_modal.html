@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="py-4 border-bottom text-center">
+        <span class="h5" id="exampleModalLabel">프로필 사진 바꾸기</span>
+      </div>
+      <div class="pt-3 pb-2 border-bottom text-center">
+        
+        <span class="text-primary upload">
+          <label for="file">
+            <span class="btn-upload">프로필 사진 변경</span>
+          </label>
+          <form method="post" id="image-change">
+            {% csrf_token %}
+            <input type="file" name="file" id="file">
+          </form>
+        </span>
+      </div>
+      <div class="py-3 border-bottom text-center">
+        <a href="" class="delete">
+          <span class="text-danger">
+            <strong>현재 사진 삭제</strong>
+          </span>
+        </a>
+      </div>
+      <div class="py-3 text-center">
+        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/like.css' %}">
+{% endblock style %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3 class="border-bottom pb-2">
+          <!--제목-->
+          {{post.title}}
+        </h3>
+      </div>
+      <div class="col-12">
+        {% if post.image %}
+          <img src="{{post.image.url}}" alt="" class="mx-auto d-block">
+        {% endif %}
+      </div>
+      <div class="col-12">
+        <!--본문-->
+        <p>{{post.content}}</p>
+      </div>
+    </div>
+    <!-- 좋아요 영역-->
+    <div id="like_section" class="row mb-3">
+      {% include 'blog/like_section.html' %}
+    </div>
+
+    <!-- tag 영역-->
+    <div class="row">
+      <div class="col-12">
+        {% for tag in post.tags.all %}
+          <span class="badge-dark">#{{tag.name}}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!--댓글 영역-->
+    <div class="card">
+      <div class="card-header comment-header">
+        <i class="fas fa-comments"></i>
+        <span class="small">
+          comments
+        </span>
+      </div>
+      <!--댓글 목록 반복될 부분-->
+      {% if post.comment_set.count > 0 %}
+        {% for comment in post.comment_set.all %}
+          <div class="card-body">
+            <div class="card-title">{{comment.content}}</div>
+            <div class="d-flex justify-content-end p-2 bg-light">
+              <div>{{comment.user.email}}</div>
+              <div>({{comment.created_at}})</div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <!--댓글 목록 종료-->
+
+    <!-- 에러 메세지 출력 -->
+    <div class="row mx-auto mt-5">
+      {% if messages %}
+        <div class="alert alert-danger">
+          {% for msg in messages %}
+            <strong>{{msg}}</strong>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!--댓글 입력-->
+    <div class="col-12 mt-5">
+      <form method="post" action="{% url 'comment_create' %}">
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value="{{post.id}}">
+
+        <div class="form-group">
+          <textarea name="content" id="content" rows="7" class="form-control"></textarea>
+        </div>
+
+        {% if user.is_authenticated %}
+          <div class="form-group mt-2">
+            <button type="submit" class="btn btn-primary">댓글등록</button>
+          </div>
+        {% endif %}
+
+      </form>
+    </div>
+  </div>
+{% endblock content %}
+{% block script %}
+  <script>
+    $(".btn-primary").on("click", function (e) {
+      e.preventDefault();
+
+      let form = $(this).closest("form");
+
+      let textarea = form
+        .find("textarea")
+        .val();
+
+      if (!textarea) {
+        //form.attr('action', "{% url 'post_detail' post.id %}");
+        form.append('<input type="hidden" name="next" value="/post/{{post.id}}/"/>');
+      }
+      form.submit();
+    })
+
+    $(".recommand button").on("click", function () {
+      // post 글 번호 가져오기, csrf 값 가져오기
+      // 자바스크립트 객체
+      let csrf = $('[name="csrfmiddlewaretoken"]').val();
+
+      let param = {
+        id: $(this).attr("value"),
+        csrfmiddlewaretoken: csrf
+      }
+
+      // id 서버로 전송(ajax)
+      $.ajax({
+        type: "post",
+        url: "{% url 'post_like' %}",
+        data: param,
+        dataType: 'json',
+        success: function (data) {
+          console.log("좋아요 갯수 " + data['likes'] + ", 로그인 사용자의 좋아요 여부 " + data['is_liked']);
+
+          //좋아요 정리
+          if (data['is_liked']) {
+            $(".recommand img:last").addClass("disabled");
+            $(".recommand img:first").removeClass("disabled");
+          } else {
+            $(".recommand img:first").addClass("disabled");
+            $(".recommand img:last").removeClass("disabled");
+          }
+
+          //전체 추천수 정리
+          $(".like_count span").html(data['likes']);
+        },
+        error: function (res, e) {
+          console.log(res.responseText);
+        }
+      })
+    })
+  </script>
+{% endblock script %}

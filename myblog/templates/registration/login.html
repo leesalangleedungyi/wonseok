@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}로그인{% endblock title %}
+
+{% block content %}
+  <div class="container mx-auto px-5">
+    {% include 'form_errors.html' %}
+    <h1 class="pb-3 border-bottom">Login</h1>
+    <form method="post" class="post-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">이메일</label>
+        <input type="text" name="username" id="username" class="form-control" value="{{form.username.value|default_if_none:''}}">
+      </div>
+      <div class="form-group">
+        <label for="password">비밀번호</label>
+        <input type="password" name="password" id="password" class="form-control" value="{{form.password.value|default_if_none:''}}">
+      </div>
+      <div class="form-group my-4">
+        <button type="submit" class="btn btn-primary">로그인</button>
+      </div>
+    </form>
+  </div>
+{% endblock content %}

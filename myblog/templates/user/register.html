@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+  회원가입
+{% endblock title %}
+{% block content %}
+  <!--회원가입 폼 보여주기 : form.as_p, 직접 디자인, 장고가 넘겨주는 폼에서 꺼내서 처리-->
+  {% comment %} {{user_form.as_p}} {% endcomment %}
+  <div class="container mx-auto px-5">
+    <h1 class="pb-3 border-bottom">Signup</h1>
+    {% include 'form_errors.html' %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for field in user_form  %}
+            <div class="form-group mb-2">
+                <label for="{{field.id_for_label}}">{{field.label}}</label>
+                {% if field.name == 'gender' %}
+                    <select name="{{field.name}}" id="{{field.id_for_label}}" class="form-control">
+                        {% for option in field  %}
+                            {{option}}
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <input type="{{field.field.widget.input_type}}" class="form-control" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}" >                
+                {% endif %}
+            </div>        
+        {% endfor %}
+        <div class="form-group my-3">
+            <button class="btn btn-primary" type="submit">회원가입</button>
+        </div>
+    </form>
+  </div>  
+
+{% endblock content %}

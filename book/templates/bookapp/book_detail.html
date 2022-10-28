@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="mt-5">상세조회</h1>
+  <form method="post">
+    <div class="form-group">
+      <label for="code">Code</label>
+      <input type="number" name="code" id="code" readonly="readonly" value="{{book.code}}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" readonly="readonly" value="{{book.title}}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input type="text" name="author" id="author" readonly="readonly" value="{{book.author}}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="number" name="price" id="price" readonly="readonly" value="{{book.price}}" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="register_dttm">Register</label>
+      <input type="text" name="register_dttm" id="register_dttm" readonly="readonly" value="{{book.register_dttm}}" class="form-control">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success">수정</button>
+      <button type="submit" class="btn btn-primary">리스트</button>
+    </div>
+  </form>
+{% endblock content %}
+{% block script %}
+  <script>
+    // 리스트 버튼 클릭시 book_list 이동
+    // 자바스크립트 or jquery
+    //$(function () {
+    //  $(".btn-primary").click(function (e) {
+    //     button submit 기능 중지
+    //    e.preventDefault();
+    //    location.href = "/book/"
+    //    location.href = "{% url 'book_list' %}";
+    //  })
+    //})
+
+    document
+      .querySelector(".btn-primary")
+      .addEventListener('click', function (e) {
+        // button submit 기능 중지
+        e.preventDefault();
+        location.href = "{% url 'book_list' %}";
+      })
+    document
+      .querySelector(".btn-success")
+      .addEventListener('click', function (e) {
+        // button submit 기능 중지
+        e.preventDefault();
+        location.href = "{% url 'book_edit' pk=book.pk %}";
+      })
+  </script>
+{% endblock script %}

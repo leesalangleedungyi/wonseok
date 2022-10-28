@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="mt-3">Book List</h1>
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>코드</th>
+      <th>제목</th>
+      <th>저자</th>
+      <th>가격</th>
+    </tr>
+    <!-- 반복문 들어올 곳-->
+    {% for book in book_list %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{book.code}}</td>
+        <td>
+          <a href="{% url 'book_detail' book.pk %}">{{book.title}}</a>
+        </td>
+        <td>{{book.author}}</td>
+        <td>{{book.price}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock content %}

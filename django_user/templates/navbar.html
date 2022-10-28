@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border_bottom">
+  <a class="navbar-brand" href="#">MyApp</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ml-5">
+
+        {% if user.is_authenticated %}
+          <a class="nav-link" href="{% url 'user:logout' %}">{{user.username}}
+            님 로그아웃</a>
+        {% else %}
+          <a class="nav-link" href="{% url 'user:login' %}">로그인</a>
+        {% endif %}
+
+        <!--  장고의 auth.urls 이용 시-->
+        {% comment %} {% if user.is_authenticated %}
+          <a class="nav-link" href="{% url 'logout' %}">{{user.username}}
+            님 로그아웃</a>
+        {% else %}
+          <a class="nav-link" href="{% url 'login' %}">로그인</a>
+        {% endif %} {% endcomment %}
+
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,19 @@
+.comment {
+  font-size: 0.8em;
+}
+.like_count {
+  font-size: 0.6em;
+}
+.recommand img {
+  width: 25px;
+  height: 25px;
+}
+
+.recommand button {
+  border: 0;
+  background: none;
+}
+
+.recommand img.disabled {
+  display: none;
+}

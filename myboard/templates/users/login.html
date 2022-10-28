@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% load static %}
+{% block content %}
+  <div class="container my-3">
+    <div class="row">
+      <div class="col-4">
+        <h4 class="mb-1">로그인</h4>
+      </div>
+      <div class="col-8 text-right">
+        <span>
+          또는
+          <a href="{% url 'users:signup' %}">계정 생성</a>
+        </span>
+        <span>
+          또는
+          <a href="{% url 'users:password_reset' %}">비밀번호 초기화</a>
+        </span>
+      </div>
+    </div>
+    <hr class="mt-1"/>
+    <div class="content-block">
+      {% include 'form_errors.html' %}
+
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username" class="small">사용자 ID</label>
+          <input type="text" name="username" id="username" class="form-control" value=""/>
+        </div>
+        <div class="form-group">
+          <label for="password" class="small">비밀번호</label>
+          <input type="password" name="password" id="password" class="form-control" value=""/>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">로그인</button>
+        </div>
+      </form>
+    </div>
+    <hr>
+    <div class="text-muted my-3">
+      <small>구글 또는 카카오 계정으로 로그인</small>
+    </div>
+    <a href="{% provider_login_url 'google' %}">
+      <img src="{% static 'img/google.png' %}" alt="구글로그인">
+    </a>
+    <a href="{% provider_login_url 'kakao' %}">
+      <img src="{% static 'img/kakao.png' %}" alt="카카오로그인">
+    </a>
+
+  </div>
+{% endblock content %}

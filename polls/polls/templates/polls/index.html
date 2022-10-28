@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="card" style="width: 30rem;">
+      <div class="card-header">
+        <h1>Polls List</h1>
+        <small>익명 투표</small>
+      </div>
+      {% if lastest_question_list %}
+        <ul class="list-group list-group-flush">
+          {% for question in lastest_question_list %}
+            <li class="list-group-item">
+              <!-- question_text -->
+              <a href=" {% url 'detail' question.id %} ">{{question.question_text}}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>보여줄 질문 없음</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}
